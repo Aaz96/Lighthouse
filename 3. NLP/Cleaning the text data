@@ -1,0 +1,39 @@
+def score_wo_stopwrds(self,x):
+        self.x=x
+        stop_words= set(stopwords.words('english')) #importing stopwords from nltk dictionary
+        for x in x:
+            r= re.sub(r'#+\w*',"",x)        #regex used to remove a word including/starting/ending with #
+            sent_token= word_tokenize(r)    #tokenizing in words
+            fdist = FreqDist(sent_token)    #Bag of words
+            print(fdist.most_common(3))     #printing first 3 most common words
+            filtered_sent=[]
+            for w in sent_token:
+                if w not in stop_words:
+                    filtered_sent.append(w) # checking words which are not stopwords
+#         print("Filterd Sentence:",filtered_sent)
+            emoji_pattern = re.compile("[" 
+                u"\U0001F600-\U0001F64F"    # emoticons
+                u"\U0001F300-\U0001F5FF"    # symbols & pictographs
+                u"\U0001F680-\U0001F6FF"    # transport & map symbols
+                u"\U0001F1E0-\U0001F1FF"    # flags (iOS)
+                u"\U0001F1F2-\U0001F1F4"    # Macau flag
+                u"\U0001F1E6-\U0001F1FF"    # flags
+                u"\U0001F600-\U0001F64F"
+                u"\U00002702-\U000027B0"
+                u"\U000024C2-\U0001F251"
+                u"\U0001f926-\U0001f937"
+                u"\U0001F1F2"
+                u"\U0001F1F4"
+                u"\U0001F620"
+                u"\u200d"
+                u"\u2640-\u2642"
+                "]+", flags=re.UNICODE)
+            text=[]
+            for i in range(0, len(filtered_sent)):
+                text.append(emoji_pattern.sub(r'', filtered_sent[i]))    #checking for emojis
+            a=[]
+            for i in text:
+                a.append(re.sub(r'[^\w]', '', i))
+            b= list(filter(None, a))
+            b= " ".join(b)
+          return(b)
